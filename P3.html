@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 Ultimate Python 3 Cheatsheet</title>
+    <style>
+        :root {
+            --primary: #3776ab;
+            --secondary: #ffd43b;
+            --dark: #0d1117;
+            --light: #f8f9fa;
+            --success: #28a745;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        /* Sidebar */
+        #sidebar {
+            background: var(--dark);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        #sidebar h2 {
+            color: var(--secondary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        #sidebar li {
+            margin-bottom: 0.5rem;
+        }
+        
+        #sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        #sidebar a:hover {
+            background: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        /* Main Content */
+        #content {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        h1 {
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+        
+        h2 {
+            margin-top: 2rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+        }
+        
+        pre {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 3px solid var(--primary);
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .note {
+            background: #e7f5ff;
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+            margin: 1rem 0;
+        }
+        
+        .warning {
+            background: #fff3bf;
+            padding: 1rem;
+            border-left: 4px solid #ffd43b;
+            margin: 1rem 0;
+        }
+        
+        .back-to-top {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+            
+            #sidebar {
+                height: auto;
+                position: relative;
+            }
+            
+            #content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+        <h2>Python Cheatsheet</h2>
+        <ul>
+            <li><a href="#basic-syntax">🔤 Basic Syntax</a></li>
+            <li><a href="#data-types-casting">📦 Data Types & Casting</a></li>
+            <li><a href="#control-flow">🔁 Control Flow</a></li>
+            <li><a href="#operators">🧮 Operators</a></li>
+            <li><a href="#functions">🔧 Functions</a></li>
+            <li><a href="#data-structures">🎒 Data Structures</a></li>
+            <li><a href="#modules-packages">🧱 Modules & Packages</a></li>
+            <li><a href="#file-io">🗃️ File I/O</a></li>
+            <li><a href="#error-handling">🧵 Error Handling</a></li>
+            <li><a href="#oop">🎭 OOP (Object-Oriented)</a></li>
+            <li><a href="#comprehensions">⏳ Comprehensions</a></li>
+            <li><a href="#lambda-functions">⚙️ Lambda, Map, Filter</a></li>
+            <li><a href="#virtual-environments">📦 Virtual Environments</a></li>
+            <li><a href="#testing">🧪 Testing</a></li>
+            <li><a href="#debugging">🐞 Debugging</a></li>
+            <li><a href="#standard-libraries">📚 Standard Libraries</a></li>
+            <li><a href="#third-party-libs">🔗 Third-Party Libraries</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="content">
+        <h1>🐍 Ultimate Python 3 Cheatsheet</h1>
+        <p>A professional, interactive reference for Python developers of all levels. Covers syntax, best practices, and modern Python features.</p>
+        
+        <!-- Basic Syntax -->
+        <section id="basic-syntax">
+            <h2>🔤 Basic Syntax</h2>
+            <pre><code># Comments
+# Single line comment
+""" Multi-line 
+comment or docstring """
+
+# Variables
+name = "Alice"
+age = 30
+is_active = True
+
+# Print formatting (f-strings)
+print(f"{name} is {age} years old and active: {is_active}")
+
+# Multiple assignment
+x, y, z = 1, 2, 3
+
+# Type hints (Python 3.5+)
+def greet(name: str) -> str:
+    return f"Hello, {name}"</code></pre>
+            
+            <div class="note">
+                <strong>Pro Tip:</strong> Use f-strings (Python 3.6+) for cleaner string formatting compared to %-formatting or .format().
+            </div>
+            
+            <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+        </section>
+        
+        <!-- Data Types & Casting -->
+        <section id="data-types-casting">
+            <h2>📦 Data Types & Casting</h2>
+            
+            <h3>Primitive Types</h3>
+            <pre><code>str_var = "hello"       # String
+int_var = 42         # Integer
+float_var = 3.14     # Float
+bool_var = True      # Boolean
+none_var = None      # NoneType
+bytes_var = b"data"  # Bytes</code></pre>
+            
+            <h3>Type Conversion</h3>
+            <pre><code>str(42)        # "42"
+int("10")      # 10
+float("3.5")   # 3.5
+bool("")       # False
+list("abc")    # ['a', 'b', 'c']
+tuple([1,2,3]) # (1, 2, 3)</code></pre>
+            
+            <h3>Type Checking</h3>
+            <pre><code>type("hello") is str  # True
+isinstance(42, int) # True</code></pre>
+            
+            <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+        </section>
+        
+        <!-- Control Flow -->
+        <section id="control-flow">
+            <h2>🔁 Control Flow</h2>
+            
+            <h3>Conditionals</h3>
+            <pre><code>if age > 18:
+    print("Adult")
+elif age == 18:
+    print("Exactly 18")
+else:
+    print("Minor")
+
+# Ternary operator
+status = "Adult" if age >= 18 else "Minor"</code></pre>
+            
+            <h3>Loops</h3>
+            <pre><code># For loop
+for i in range(5):       # 0 to 4
+    print(i)
+
+for item in [1, 2, 3]:   # Iterate list
+    print(item)
+
+# While loop
+while condition:
+    # Loop body
+    if should_exit:
+        break     # Exit loop
+    if skip_rest:
+        continue  # Next iteration</code></pre>
+            
+            <h3>Loop Techniques</h3>
+            <pre><code># With index
+for i, value in enumerate(['a', 'b', 'c']):
+    print(f"Index {i}: {value}")
+
+# Multiple sequences
+for a, b in zip([1, 2], ['x', 'y']):
+    print(a, b)
+
+# Dictionary iteration
+for key, value in my_dict.items():
+    print(key, value)</code></pre>
+            
+            <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+        </section>
+        
+        <!-- Operators -->
+        <section id="operators">
+            <h2>🧮 Operators</h2>
+            
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Operators</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Arithmetic</td>
+                    <td>+ - * / % ** //</td>
+                    <td>Addition, subtraction, multiplication, division, modulo, exponent, floor division</td>
+                </tr>
+                <tr>
+                    <td>Comparison</td>
+                    <td>== != > < >= <=</td>
+                    <td>Equal, not equal, greater than, less than, etc.</td>
+                </tr>
+                <tr>
+                    <td>Logical</td>
+                    <td>and or not</td>
+                    <td>Boolean operations</td>
+                </tr>
+                <tr>
+                    <td>Assignment</td>
+                    <td>= += -= *= /=</td>
+                    <td>Assignment operators</td>
+                </tr>
+                <tr>
+                    <td>Identity</td>
+                    <td>is is not</td>
+                    <td>Object identity comparison</td>
+                </tr>
+                <tr>
+                    <td>Membership</td>
+                    <td>in not in</td>
+                    <td>Check if value exists in sequence</td>
+                </tr>
+                <tr>
+                    <td>Bitwise</td>
+                    <td>& | ^ ~ << >></td>
+                    <td>Bitwise AND, OR, XOR, NOT, shifts</td>
+                </tr>
+            </table>
+            
+            <div class="warning">
+                <strong>Watch Out:</strong> <code>==</code> checks equality, <code>is</code> checks if objects are identical (same memory location).
+            </div>
+            
+            <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+        </section>
+        
+        <!-- Continue with other sections following the same pattern -->
+        
+        <!-- Standard Libraries -->
+        <section id="standard-libraries">
+            <h2>📚 Standard Libraries</h2>
+            
+            <table>
+                <tr>
+                    <th>Library</th>
+                    <th>Purpose</th>
+                    <th>Common Use Cases</th>
+                </tr>
+                <tr>
+                    <td><code>os</code></td>
+                    <td>Operating system interfaces</td>
+                    <td>File paths, environment variables, directory operations</td>
+                </tr>
+                <tr>
+                    <td><code>sys</code></td>
+                    <td>System-specific parameters</td>
+                    <td>Command-line arguments, interpreter info, exit program</td>
+                </tr>
+                <tr>
+                    <td><code>math</code></td>
+                    <td>Mathematical functions</td>
+                    <td>Trigonometry, logarithms, constants (pi, e)</td>
+                </tr>
+                <tr>
+                    <td><code>datetime</code></td>
+                    <td>Date and time handling</td>
+                    <td>Current time, date arithmetic, formatting</td>
+                </tr>
+                <tr>
+                    <td><code>json</code></td>
+                    <td>JSON encoding/decoding</td>
+                    <td>Working with APIs, configuration files</td>
+                </tr>
+                <tr>
+                    <td><code>re</code></td>
+                    <td>Regular expressions</td>
+                    <td>Pattern matching, text processing</td>
+                </tr>
+                <tr>
+                    <td><code>collections</code></td>
+                    <td>Specialized container types</td>
+                    <td>namedtuple, defaultdict, Counter</td>
+                </tr>
+                <tr>
+                    <td><code>itertools</code></td>
+                    <td>Iterator functions</td>
+                    <td>Efficient looping, combinations, permutations</td>
+                </tr>
+                <tr>
+                    <td><code>argparse</code></td>
+                    <td>Command-line parsing</td>
+                    <td>Building CLI applications</td>
+                </tr>
+                <tr>
+                    <td><code>logging</code></td>
+                    <td>Logging facility</td>
+                    <td>Application logging, debug output</td>
+                </tr>
+            </table>
+            
+            <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+        </section>
+        
+        <!-- Third-Party Libraries -->
+        <section id="third-party-libs">
+            <h2>🔗 Recommended Third-Party Libraries</h2>
+            
+            <table>
+                <tr>
+                    <th>Library</th>
+                    <th>Purpose</th>
+                    <th>Installation</th>
+                </tr>
+                <tr>
+                    <td><code>requests</code></td>
+                    <td>HTTP requests</td>
+                    <td><code>pip install requests</code></td>
+                </tr>
+                <tr>
+                    <td><code>pandas</code></td>
+                    <td>Data analysis</td>
+                    <td><code>pip install pandas</code></td>
+                </tr>
+                <tr>
+                    <td><code>numpy</code></td>
+                    <td>Numerical computing</td>
+                    <td><code>pip install numpy</code></td>
+                </tr>
+                <tr>
+                    <td><code>flask</code></td>
+                    <td>Web framework</td>
+                    <td><code>pip install flask</code></td>
+                </tr>
+                <tr>
+                    <td><code>django</code></td>
+                    <td>Full-featured web framework</td>
+                    <td><code>pip install django</code></td>
+                </tr>
+                <tr>
+                    <td><code>beautifulsoup4</code></td>
+                    <td>HTML/XML parsing</td>
+                    <td><code>pip install beautifulsoup4</code></td>
+                </tr>
+                <tr>
+                    <td><code>pytest</code></td>
+                    <td>Testing framework</td>
+                    <td><code>pip install pytest</code></td>
+                </tr>
+                <tr>
+                    <td><code>fastapi</code></td>
+                    <td>Modern web APIs</td>
+                    <td><code>pip install fastapi uvicorn</code></td>
+                </tr>
+                <tr>
+                    <td><code>sqlalchemy</code></td>
+                    <td>Database ORM</td>
+                    <td><code>pip install sqlalchemy</code></td>
+                </tr>
+                <tr>
+                    <td><code>matplotlib</code></td>
+                    <td>Data visualization</td>
+                    <td><code>pip install matplotlib</code></td>
+                </tr>
+            </table>
+            
+            <div class="note">
+                <strong>Pro Tip:</strong> Always check library documentation for specific version requirements and consider using virtual environments for project isolation.
+            </div>
+            
+            <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+        </section>
+        
+        <footer>
+            <hr>
+            <p>Built with ♥ by @femonla02 | Last updated: August 2025 | MIT License</p>
+        </footer>
+    </main>
+</body>
+</html>
