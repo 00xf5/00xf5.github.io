@@ -349,7 +349,678 @@ for key, value in my_dict.items():
         </section>
         
         <!-- Continue with other sections following the same pattern -->
-        
+
+
+<!-- Previous sections remain the same (Basic Syntax through Operators) -->
+
+<!-- Functions -->
+<section id="functions">
+    <h2>🔧 Functions</h2>
+    
+    <h3>Function Definition</h3>
+    <pre><code># Basic function
+def greet(name):
+    return f"Hello, {name}"
+
+# With type hints (Python 3.5+)
+def add(a: int, b: int) -> int:
+    return a + b
+
+# Default arguments
+def power(base, exponent=2):
+    return base ** exponent
+
+# Variable arguments
+def sum_all(*args):
+    return sum(args)
+
+# Keyword arguments
+def create_user(**kwargs):
+    print(kwargs)  # Becomes dictionary
+
+# Combined
+def complex_func(a, b=1, *args, **kwargs):
+    print(a, b, args, kwargs)</code></pre>
+    
+    <h3>Lambda Functions</h3>
+    <pre><code># Anonymous functions
+square = lambda x: x ** 2
+sorted(names, key=lambda x: x.lower())</code></pre>
+    
+    <div class="note">
+        <strong>Pro Tip:</strong> Use <code>*args</code> for variable positional arguments and <code>**kwargs</code> for variable keyword arguments.
+    </div>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Data Structures -->
+<section id="data-structures">
+    <h2>🎒 Data Structures</h2>
+    
+    <h3>Lists</h3>
+    <pre><code># Creation
+nums = [1, 2, 3]
+mixed = [1, "a", True]
+
+# Access
+nums[0]       # 1 (first item)
+nums[-1]      # 3 (last item)
+nums[1:3]     # [2, 3] (slice)
+nums[::2]     # [1, 3] (step)
+
+# Methods
+nums.append(4)       # Add to end
+nums.insert(1, 1.5)  # Insert at index
+nums.remove(2)       # Remove by value
+nums.pop(0)          # Remove by index
+nums.sort()          # In-place sort
+sorted_nums = sorted(nums)  # New sorted list</code></pre>
+    
+    <h3>Tuples</h3>
+    <pre><code># Immutable sequences
+coords = (4, 5)
+single = (1,)  # Note comma
+
+# Unpacking
+x, y = coords
+a, *rest = [1, 2, 3]  # a=1, rest=[2,3]</code></pre>
+    
+    <h3>Dictionaries</h3>
+    <pre><code># Creation
+person = {"name": "Alice", "age": 30}
+person = dict(name="Alice", age=30)
+
+# Access
+person["name"]          # "Alice"
+person.get("age", 0)    # 30 (0 if key missing)
+
+# Methods
+person.keys()    # ['name', 'age']
+person.values()  # ['Alice', 30]
+person.items()   # [('name', 'Alice'), ('age', 30)]
+person.update({"city": "NY"})  # Merge dictionaries</code></pre>
+    
+    <h3>Sets</h3>
+    <pre><code># Unique elements
+unique = {1, 2, 2, 3}  # {1, 2, 3}
+
+# Operations
+a = {1, 2, 3}
+b = {3, 4, 5}
+a | b  # Union {1, 2, 3, 4, 5}
+a & b  # Intersection {3}
+a - b  # Difference {1, 2}</code></pre>
+    
+    <h3>Collections Module</h3>
+    <pre><code>from collections import defaultdict, Counter, namedtuple
+
+# Default dict
+dd = defaultdict(list)  # Auto-initializes with list()
+
+# Counter
+counts = Counter("hello")  # {'h':1, 'e':1, 'l':2, 'o':1}
+
+# Named tuple
+Point = namedtuple("Point", ["x", "y"])
+p = Point(1, 2)</code></pre>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Modules & Packages -->
+<section id="modules-packages">
+    <h2>🧱 Modules & Packages</h2>
+    
+    <h3>Importing</h3>
+    <pre><code># Standard library imports
+import math
+from datetime import datetime
+
+# Third-party imports
+import numpy as np
+from flask import Flask
+
+# Local imports
+from .utils import helper_function
+
+# Aliasing
+import pandas as pd
+from matplotlib import pyplot as plt</code></pre>
+    
+    <h3>Creating Modules</h3>
+    <pre><code># mymodule.py
+def func():
+    return "Hello"
+
+# __init__.py makes a directory a package
+# (can be empty in Python 3.3+)</code></pre>
+    
+    <h3>Special Variables</h3>
+    <pre><code>if __name__ == "__main__":
+    # Code only runs when script is executed directly
+    print("Running as main program")</code></pre>
+    
+    <div class="warning">
+        <strong>Watch Out:</strong> Circular imports (when two modules import each other) can cause problems. Restructure code to avoid them.
+    </div>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- File I/O -->
+<section id="file-io">
+    <h2>🗃️ File I/O</h2>
+    
+    <h3>Reading Files</h3>
+    <pre><code># Basic reading
+with open("file.txt", "r") as f:
+    content = f.read()
+
+# Line by line
+with open("file.txt") as f:
+    for line in f:
+        print(line.strip())  # strip removes newlines
+
+# Read all lines
+with open("file.txt") as f:
+    lines = f.readlines()</code></pre>
+    
+    <h3>Writing Files</h3>
+    <pre><code># Basic writing (overwrites)
+with open("output.txt", "w") as f:
+    f.write("Hello\n")
+
+# Append mode
+with open("log.txt", "a") as f:
+    f.write("New log entry\n")
+
+# Write multiple lines
+lines = ["First line", "Second line"]
+with open("file.txt", "w") as f:
+    f.writelines(lines)</code></pre>
+    
+    <h3>File Modes</h3>
+    <table>
+        <tr>
+            <th>Mode</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>'r'</code></td>
+            <td>Read (default)</td>
+        </tr>
+        <tr>
+            <td><code>'w'</code></td>
+            <td>Write (truncates)</td>
+        </tr>
+        <tr>
+            <td><code>'a'</code></td>
+            <td>Append</td>
+        </tr>
+        <tr>
+            <td><code>'r+'</code></td>
+            <td>Read/write</td>
+        </tr>
+        <tr>
+            <td><code>'b'</code></td>
+            <td>Binary mode (e.g., <code>'rb'</code>)</td>
+        </tr>
+    </table>
+    
+    <h3>Working with Paths</h3>
+    <pre><code>from pathlib import Path  # Modern approach
+
+# Create Path object
+p = Path("folder/file.txt")
+
+# Common operations
+p.exists()    # Check if exists
+p.is_file()   # Check if is file
+p.parent      # Parent directory
+p.name        # Filename with extension
+p.stem        # Filename without extension
+p.suffix      # File extension
+
+# Reading with Path
+content = Path("file.txt").read_text()</code></pre>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Error Handling -->
+<section id="error-handling">
+    <h2>🧵 Error Handling</h2>
+    
+    <h3>Try/Except Blocks</h3>
+    <pre><code>try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+except (TypeError, ValueError) as e:
+    print(f"Type or value error: {e}")
+except Exception as e:  # Catch-all (use sparingly)
+    print(f"Unexpected error: {e}")
+else:
+    print("Runs only if no exceptions")
+finally:
+    print("Always runs, for cleanup")</code></pre>
+    
+    <h3>Raising Exceptions</h3>
+    <pre><code>def validate_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative")
+    return age
+
+# Custom exceptions
+class MyError(Exception):
+    pass</code></pre>
+    
+    <h3>Common Exception Types</h3>
+    <table>
+        <tr>
+            <th>Exception</th>
+            <th>When It Occurs</th>
+        </tr>
+        <tr>
+            <td><code>IndexError</code></td>
+            <td>Sequence index out of range</td>
+        </tr>
+        <tr>
+            <td><code>KeyError</code></td>
+            <td>Dictionary key not found</td>
+        </tr>
+        <tr>
+            <td><code>TypeError</code></td>
+            <td>Operation on wrong type</td>
+        </tr>
+        <tr>
+            <td><code>ValueError</code></td>
+            <td>Correct type but invalid value</td>
+        </tr>
+        <tr>
+            <td><code>FileNotFoundError</code></td>
+            <td>File doesn't exist</td>
+        </tr>
+        <tr>
+            <td><code>ImportError</code></td>
+            <td>Module import failed</td>
+        </tr>
+    </table>
+    
+    <div class="note">
+        <strong>Pro Tip:</strong> Be specific with exception handling. Catching <code>Exception</code> can mask bugs.
+    </div>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- OOP -->
+<section id="oop">
+    <h2>🎭 Object-Oriented Programming (OOP)</h2>
+    
+    <h3>Class Basics</h3>
+    <pre><code>class Person:
+    # Class attribute (shared by all instances)
+    species = "Homo sapiens"
+    
+    # Constructor
+    def __init__(self, name: str, age: int):
+        # Instance attributes
+        self.name = name
+        self.age = age
+    
+    # Instance method
+    def greet(self):
+        return f"Hi, I'm {self.name}"
+    
+    # Class method
+    @classmethod
+    def from_birth_year(cls, name, birth_year):
+        age = datetime.now().year - birth_year
+        return cls(name, age)
+    
+    # Static method
+    @staticmethod
+    def is_adult(age):
+        return age >= 18
+
+# Usage
+p = Person("Alice", 30)
+p.greet()</code></pre>
+    
+    <h3>Inheritance</h3>
+    <pre><code>class Employee(Person):
+    def __init__(self, name, age, employee_id):
+        super().__init__(name, age)  # Parent init
+        self.employee_id = employee_id
+    
+    # Method override
+    def greet(self):
+        original = super().greet()
+        return f"{original} (ID: {self.employee_id})"
+
+# Multiple inheritance
+class Manager(Employee, TeamLeader):
+    pass</code></pre>
+    
+    <h3>Special Methods</h3>
+    <pre><code>class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    # String representation
+    def __str__(self):
+        return f"Vector({self.x}, {self.y})"
+    
+    # Math operations
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+    
+    # Comparison
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+    
+    # Length
+    def __len__(self):
+        return 2
+    
+    # Many more: __getitem__, __setitem__, __iter__, etc.</code></pre>
+    
+    <h3>Properties</h3>
+    <pre><code>class Circle:
+    def __init__(self, radius):
+        self._radius = radius  # Protected
+    
+    @property
+    def radius(self):
+        return self._radius
+    
+    @radius.setter
+    def radius(self, value):
+        if value < 0:
+            raise ValueError("Radius cannot be negative")
+        self._radius = value
+    
+    @property
+    def area(self):
+        return math.pi * self._radius ** 2</code></pre>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Comprehensions -->
+<section id="comprehensions">
+    <h2>⏳ Comprehensions</h2>
+    
+    <h3>List Comprehensions</h3>
+    <pre><code># Basic
+squares = [x**2 for x in range(10)]
+
+# With condition
+even_squares = [x**2 for x in range(10) if x % 2 == 0]
+
+# Nested
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flattened = [num for row in matrix for num in row]</code></pre>
+    
+    <h3>Dictionary Comprehensions</h3>
+    <pre><code># Basic
+squares = {x: x**2 for x in range(5)}
+
+# From two lists
+keys = ['a', 'b', 'c']
+values = [1, 2, 3]
+mapping = {k: v for k, v in zip(keys, values)}
+
+# With condition
+even_squares = {x: x**2 for x in range(10) if x % 2 == 0}</code></pre>
+    
+    <h3>Set Comprehensions</h3>
+    <pre><code># Basic
+unique_lengths = {len(x) for x in ['a', 'bb', 'ccc']}
+
+# From list with duplicates
+numbers = [1, 2, 2, 3, 4, 4, 4]
+unique = {x for x in numbers}</code></pre>
+    
+    <h3>Generator Expressions</h3>
+    <pre><code># Similar to list comprehension but lazy
+squares_gen = (x**2 for x in range(10))
+
+# Memory efficient
+sum_of_squares = sum(x**2 for x in range(1000000))</code></pre>
+    
+    <div class="warning">
+        <strong>Watch Out:</strong> While comprehensions are concise, complex ones can hurt readability. Use wisely.
+    </div>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Lambda, Map, Filter, Reduce -->
+<section id="lambda-functions">
+    <h2>⚙️ Lambda, Map, Filter, Reduce</h2>
+    
+    <h3>Lambda Functions</h3>
+    <pre><code># Anonymous functions
+square = lambda x: x ** 2
+
+# Often used as arguments
+sorted(names, key=lambda x: x.lower())</code></pre>
+    
+    <h3>Map</h3>
+    <pre><code># Apply function to each item
+numbers = [1, 2, 3]
+doubled = list(map(lambda x: x * 2, numbers))
+
+# With named function
+def to_upper(s):
+    return s.upper()
+    
+names = ['alice', 'bob']
+upper_names = list(map(to_upper, names))</code></pre>
+    
+    <h3>Filter</h3>
+    <pre><code># Filter items
+numbers = [1, 2, 3, 4, 5]
+evens = list(filter(lambda x: x % 2 == 0, numbers))</code></pre>
+    
+    <h3>Reduce</h3>
+    <pre><code>from functools import reduce
+
+# Cumulative operation
+numbers = [1, 2, 3, 4]
+product = reduce(lambda x, y: x * y, numbers)  # 24</code></pre>
+    
+    <div class="note">
+        <strong>Modern Python:</strong> List comprehensions and generator expressions often replace <code>map</code> and <code>filter</code> for better readability.
+    </div>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Virtual Environments -->
+<section id="virtual-environments">
+    <h2>📦 Virtual Environments</h2>
+    
+    <h3>Creation & Activation</h3>
+    <pre><code># Create
+python -m venv venv
+
+# Activate (Linux/macOS)
+source venv/bin/activate
+
+# Activate (Windows)
+venv\Scripts\activate
+
+# Deactivate
+deactivate</code></pre>
+    
+    <h3>Package Management</h3>
+    <pre><code># Install package
+pip install requests
+
+# Install specific version
+pip install django==3.2.5
+
+# Install from requirements file
+pip install -r requirements.txt
+
+# Freeze dependencies
+pip freeze > requirements.txt</code></pre>
+    
+    <h3>Pipenv (Alternative)</h3>
+    <pre><code># Install pipenv
+pip install pipenv
+
+# Create environment and install
+pipenv install requests
+
+# Activate shell
+pipenv shell
+
+# Run script in environment
+pipenv run python script.py</code></pre>
+    
+    <div class="warning">
+        <strong>Best Practice:</strong> Always use virtual environments for projects to avoid package conflicts.
+    </div>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Testing -->
+<section id="testing">
+    <h2>🧪 Testing</h2>
+    
+    <h3>unittest (Standard Library)</h3>
+    <pre><code>import unittest
+
+class TestMath(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(1 + 1, 2)
+    
+    def test_divide(self):
+        with self.assertRaises(ZeroDivisionError):
+            1 / 0
+
+if __name__ == "__main__":
+    unittest.main()</code></pre>
+    
+    <h3>pytest (Third-Party)</h3>
+    <pre><code># test_sample.py
+def add(a, b):
+    return a + b
+
+def test_add():
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+
+# Run with: pytest test_sample.py</code></pre>
+    
+    <h3>Mocking</h3>
+    <pre><code>from unittest.mock import Mock, patch
+
+# Create mock
+mock = Mock(return_value=42)
+mock()  # Returns 42
+
+# Patch in tests
+def get_data():
+    # Some expensive operation
+    return "real data"
+
+@patch("__main__.get_data", return_value="mocked data")
+def test_get_data(mock_get):
+    assert get_data() == "mocked data"</code></pre>
+    
+    <h3>Test Fixtures</h3>
+    <pre><code># pytest fixtures
+import pytest
+
+@pytest.fixture
+def sample_data():
+    return [1, 2, 3, 4, 5]
+
+def test_sum(sample_data):
+    assert sum(sample_data) == 15</code></pre>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Debugging -->
+<section id="debugging">
+    <h2>🐞 Debugging</h2>
+    
+    <h3>Print Debugging</h3>
+    <pre><code># Simple but effective
+print(f"DEBUG: {variable=}")  # Python 3.8+ f-string debugging</code></pre>
+    
+    <h3>pdb (Python Debugger)</h3>
+    <pre><code># Breakpoint (Python 3.7+)
+breakpoint()
+
+# Traditional
+import pdb; pdb.set_trace()
+
+# Common pdb commands:
+# n(ext), s(tep), c(ontinue), l(ist), p(rint), q(uit)</code></pre>
+    
+    <h3>Logging</h3>
+    <pre><code>import logging
+
+# Basic config
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+# Usage
+logger = logging.getLogger(__name__)
+logger.debug("Debug message")
+logger.info("Info message")
+logger.warning("Warning message")</code></pre>
+    
+    <h3>Debugging Tools</h3>
+    <table>
+        <tr>
+            <th>Tool</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>pdb</code></td>
+            <td>Standard library debugger</td>
+        </tr>
+        <tr>
+            <td><code>ipdb</code></td>
+            <td>IPython-enhanced debugger</td>
+        </tr>
+        <tr>
+            <td><code>pudb</code></td>
+            <td>Console-based visual debugger</td>
+        </tr>
+        <tr>
+            <td><code>PyCharm Debugger</code></td>
+            <td>IDE debugger with GUI</td>
+        </tr>
+        <tr>
+            <td><code>trace</code></td>
+            <td>Program execution tracer</td>
+        </tr>
+    </table>
+    
+    <a href="#sidebar" class="back-to-top">↑ Back to Top</a>
+</section>
+
+<!-- Rest of the file remains the same (Standard Libraries through Footer) -->
+
+
+
+
+
+                        
         <!-- Standard Libraries -->
         <section id="standard-libraries">
             <h2>📚 Standard Libraries</h2>
