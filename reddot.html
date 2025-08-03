@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Lang Cheatsheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        go: {
+                            blue: '#00ADD8',
+                            dark: '#0D1117',
+                            light: '#F6F8FA'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['"Fira Code"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* GitHub-like code blocks */
+        .code-block {
+            font-size: 14px;
+            line-height: 1.5;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        /* Mobile-optimized tabs */
+        @media (max-width: 640px) {
+            .tab-content {
+                padding: 12px;
+            }
+        }
+        /* Active tab indicator */
+        .active-tab {
+            border-bottom: 3px solid #00ADD8;
+            color: #00ADD8;
+        }
+    </style>
+</head>
+<body class="bg-go-light dark:bg-go-dark font-mono text-gray-800 dark:text-gray-300">
+    <div class="container mx-auto px-4 py-6 max-w-3xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <svg viewBox="0 0 128 128" class="w-8 h-8 mr-3">
+                        <path fill="#00ADD8" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64c11.2 0 21.7-2.9 30.8-7.9L48.4 55.3v36.6h-6.8V41.8h6.8l50.5 75.8C116.4 106.2 128 86.5 128 64c0-35.3-28.7-64-64-64zm22.1 84.6l-7.5-11.3V41.8h7.5v42.8z"></path>
+                    </svg>
+                    <h1 class="text-2xl font-bold">Go Lang Cheatsheet</h1>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-md bg-gray-200 dark:bg-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Essential Go syntax at your fingertips</p>
+        </header>
+
+        <!-- Mobile Tabs -->
+        <div class="mb-6 overflow-x-auto">
+            <div class="flex space-x-1">
+                <button class="tab-btn px-4 py-2 text-sm active-tab" data-tab="basics">Basics</button>
+                <button class="tab-btn px-4 py-2 text-sm" data-tab="functions">Functions</button>
+                <button class="tab-btn px-4 py-2 text-sm" data-tab="structs">Structs</button>
+                <button class="tab-btn px-4 py-2 text-sm" data-tab="concurrency">Concurrency</button>
+            </div>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <!-- Basics Tab -->
+            <div id="basics-tab" class="tab-content p-4">
+                <h2 class="text-xl font-semibold mb-4 text-go-blue">Variables & Types</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Variable Declaration</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">// Short declaration (inside functions)
+x := 42
+name := "Gopher"
+
+// Explicit typing
+var count int = 10
+var pi float64 = 3.14159
+
+// Multiple variables
+var a, b int = 1, 2
+c, d := 3, "four"</code></pre>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Basic Types</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">bool    // true/false
+string  // "hello"
+
+int     // Platform-dependent size
+int8    // -128 to 127
+int64   // -2^63 to 2^63-1
+
+uint    // Unsigned
+uintptr // For pointers
+
+byte    // alias for uint8
+rune    // alias for int32 (Unicode)
+
+float32 // 32-bit float
+float64 // 64-bit float
+
+complex64  // float32 real + imaginary
+complex128 // float64 real + imaginary</code></pre>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-semibold mb-4 mt-8 text-go-blue">Control Flow</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">If/Else</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">// Basic if
+if x > 0 {
+    return "positive"
+}
+
+// With short statement
+if err := doSomething(); err != nil {
+    log.Fatal(err)
+}
+
+// If-else chain
+if num < 0 {
+    fmt.Println("Negative")
+} else if num == 0 {
+    fmt.Println("Zero")
+} else {
+    fmt.Println("Positive")
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functions Tab (hidden by default) -->
+            <div id="functions-tab" class="tab-content p-4 hidden">
+                <h2 class="text-xl font-semibold mb-4 text-go-blue">Functions</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Basic Function</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">// Simple function
+func greet(name string) string {
+    return "Hello, " + name
+}
+
+// Multiple return values
+func swap(x, y string) (string, string) {
+    return y, x
+}
+
+// Named return values
+func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return // "naked" return
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Variadic Functions</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">func sum(nums ...int) int {
+    total := 0
+    for _, num := range nums {
+        total += num
+    }
+    return total
+}
+
+// Usage
+fmt.Println(sum(1, 2, 3)) // 6
+numbers := []int{4, 5, 6}
+fmt.Println(sum(numbers...)) // 15</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Structs Tab (hidden by default) -->
+            <div id="structs-tab" class="tab-content p-4 hidden">
+                <h2 class="text-xl font-semibold mb-4 text-go-blue">Structs & Methods</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Struct Definition</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">type Person struct {
+    Name string
+    Age  int
+}
+
+// Initialization
+p1 := Person{"Alice", 30}
+p2 := Person{Name: "Bob", Age: 25}
+p3 := new(Person) // Returns pointer
+
+// Anonymous struct
+point := struct {
+    X, Y int
+}{10, 20}</code></pre>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Methods</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">// Value receiver
+func (p Person) Greet() string {
+    return fmt.Sprintf("Hi, I'm %s", p.Name)
+}
+
+// Pointer receiver (can modify struct)
+func (p *Person) Birthday() {
+    p.Age++
+}
+
+// Usage
+person := Person{"Charlie", 40}
+person.Greet() // "Hi, I'm Charlie"
+person.Birthday() // Age now 41</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concurrency Tab (hidden by default) -->
+            <div id="concurrency-tab" class="tab-content p-4 hidden">
+                <h2 class="text-xl font-semibold mb-4 text-go-blue">Concurrency</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Goroutines</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">// Basic goroutine
+go func() {
+    fmt.Println("Running in background")
+}()
+
+// With parameters
+msg := "Hello"
+go func(m string) {
+    fmt.Println(m)
+}(msg)</code></pre>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Channels</h3>
+                    <div class="code-block bg-gray-100 dark:bg-gray-900 p-4 rounded">
+                        <pre><code class="language-go">// Unbuffered channel
+ch := make(chan string)
+
+// Buffered channel
+bufCh := make(chan int, 100)
+
+// Send/receive
+go func() { ch <- "ping" }()
+msg := <-ch // "ping"
+
+// Channel directions
+func sendOnly(ch chan<- string) { /* can only send */ }
+func receiveOnly(ch <-chan string) { /* can only receive */ }</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+            <p>Press and hold code blocks to copy | Last updated: 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize syntax highlighting
+        hljs.highlightAll();
+
+        // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
+                btn.classList.add('active-tab');
+
+                // Show corresponding content
+                const tabId = btn.dataset.tab + '-tab';
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+
+        // Mobile-friendly copy on long press
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.addEventListener('longpress', (e) => {
+                const code = block.querySelector('code').textContent;
+                navigator.clipboard.writeText(code);
+                alert('Copied to clipboard!');
+            }, { threshold: 500 });
+        });
+    </script>
+</body>
+</html>
