@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React.js Comprehensive Cheatsheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .code-block {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            }
+            .react-blue {
+                color: #61dafb;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-bold react-blue mb-2">React.js Comprehensive Cheatsheet</h1>
+            <p class="text-lg text-gray-600">Everything you need to know to build React applications</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <button onclick="filterContent('all')" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">All</button>
+                <button onclick="filterContent('core')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Core Concepts</button>
+                <button onclick="filterContent('hooks')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Hooks</button>
+                <button onclick="filterContent('advanced')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Advanced</button>
+                <button onclick="filterContent('performance')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Performance</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Core Concepts -->
+            <div class="core section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Core Concepts</h2>
+                </div>
+                <div class="p-4">
+                    <!-- JSX -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">JSX</h3>
+                        <p class="text-gray-600 mb-3">JavaScript XML allows writing HTML-like syntax in JavaScript.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Basic JSX
+const element = &lt;h1&gt;Hello, world!&lt;/h1&gt;;
+
+// Embedding expressions
+const name = 'John';
+const element = &lt;h1&gt;Hello, {name}&lt;/h1&gt;;
+
+// JSX is an expression too
+function getGreeting(user) {
+  if (user) {
+    return &lt;h1&gt;Hello, {user.name}&lt;/h1&gt;;
+  }
+  return &lt;h1&gt;Hello, Stranger&lt;/h1&gt;;
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Note:</strong> JSX gets compiled to <code>React.createElement()</code> calls.</p>
+                    </div>
+
+                    <!-- Components -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Components</h3>
+                        <p class="text-gray-600 mb-3">Building blocks of React applications. Can be functions or classes.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Function Component (recommended)
+function Welcome(props) {
+  return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
+}
+
+// Class Component
+class Welcome extends React.Component {
+  render() {
+    return &lt;h1&gt;Hello, {this.props.name}&lt;/h1&gt;;
+  }
+}
+
+// Using components
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Welcome name="Sara" /&gt;
+      &lt;Welcome name="Cahal" /&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Best Practice:</strong> Use function components with hooks for new code.</p>
+                    </div>
+
+                    <!-- Props -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Props</h3>
+                        <p class="text-gray-600 mb-3">Read-only data passed from parent to child components.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Passing props
+function App() {
+  return &lt;Welcome name="Sara" age={25} /&gt;;
+}
+
+// Accessing props (function component)
+function Welcome(props) {
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Name: {props.name}&lt;/p&gt;
+      &lt;p&gt;Age: {props.age}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Accessing props (class component)
+class Welcome extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;Name: {this.props.name}&lt;/p&gt;
+        &lt;p&gt;Age: {this.props.age}&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  }
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Rule:</strong> Props are immutable - children shouldn't modify their props.</p>
+                    </div>
+
+                    <!-- State -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">State</h3>
+                        <p class="text-gray-600 mb-3">Mutable data that affects component rendering.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Class component state
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;Count: {this.state.count}&lt;/p&gt;
+        &lt;button onClick={this.increment}&gt;Increment&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+// Function component state (with hooks)
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={increment}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Important:</strong> Never modify state directly, always use setState or the state setter function.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hooks Section -->
+            <div class="hooks section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-purple-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Hooks</h2>
+                </div>
+                <div class="p-4">
+                    <!-- useState -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">useState</h3>
+                        <p class="text-gray-600 mb-3">Adds state to function components.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useState } from 'react';
+
+function Counter() {
+  // Declare state variable 'count' with initial value 0
+  const [count, setCount] = useState(0);
+
+  // Functional updates for derived state
+  const increment = () => {
+    setCount(prevCount => prevCount + 1);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={increment}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Tip:</strong> Use functional updates when new state depends on previous state.</p>
+                    </div>
+
+                    <!-- useEffect -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">useEffect</h3>
+                        <p class="text-gray-600 mb-3">Handles side effects in function components.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useState, useEffect } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  // Similar to componentDidMount and componentDidUpdate
+  useEffect(() => {
+    // Update the document title
+    document.title = `You clicked ${count} times`;
+    
+    // Cleanup function (similar to componentWillUnmount)
+    return () => {
+      document.title = 'React App';
+    };
+  }, [count]); // Only re-run if count changes
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Patterns:</strong> Use empty dependency array [] for mount/unmount behavior, include dependencies to run when they change.</p>
+                    </div>
+
+                    <!-- useContext -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">useContext</h3>
+                        <p class="text-gray-600 mb-3">Access context without wrapping in Consumer.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { createContext, useContext } from 'react';
+
+// Create a context
+const ThemeContext = createContext('light');
+
+function App() {
+  return (
+    // Provide the context value
+    &lt;ThemeContext.Provider value="dark"&gt;
+      &lt;Toolbar /&gt;
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+function Toolbar() {
+  return &lt;ThemedButton /&gt;;
+}
+
+function ThemedButton() {
+  // Consume the context value
+  const theme = useContext(ThemeContext);
+  
+  return &lt;button className={theme}&gt;Themed Button&lt;/button&gt;;
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Use Case:</strong> Avoid prop drilling by sharing data across many components.</p>
+                    </div>
+
+                    <!-- useReducer -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">useReducer</h3>
+                        <p class="text-gray-600 mb-3">Alternative to useState for complex state logic.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useReducer } from 'react';
+
+// Reducer function
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  return (
+    &lt;div&gt;
+      Count: {state.count}
+      &lt;button onClick={() => dispatch({ type: 'decrement' })}&gt;-&lt;/button&gt;
+      &lt;button onClick={() => dispatch({ type: 'increment' })}&gt;+&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>When to use:</strong> When state logic is complex or involves multiple sub-values.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Section -->
+            <div class="advanced section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-green-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Advanced Patterns</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Refs -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Refs</h3>
+                        <p class="text-gray-600 mb-3">Access DOM nodes or persist values across renders.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useRef, useEffect } from 'react';
+
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+
+  const onButtonClick = () => {
+    // `current` points to the mounted input element
+    inputEl.current.focus();
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;input ref={inputEl} type="text" /&gt;
+      &lt;button onClick={onButtonClick}&gt;
+        Focus the input
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Mutable value that doesn't trigger re-renders
+function Timer() {
+  const intervalRef = useRef();
+  
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      // ...
+    }, 1000);
+    
+    return () => clearInterval(intervalRef.current);
+  }, []);
+  
+  // ...
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Remember:</strong> Changing refs doesn't trigger re-renders.</p>
+                    </div>
+
+                    <!-- Custom Hooks -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Custom Hooks</h3>
+                        <p class="text-gray-600 mb-3">Extract component logic into reusable functions.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useState, useEffect } from 'react';
+
+// Custom hook for fetching data
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+// Using the custom hook
+function UserProfile({ userId }) {
+  const { data: user, loading, error } = useFetch(
+    `https://api.example.com/users/${userId}`
+  );
+
+  if (loading) return &lt;div&gt;Loading...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error: {error.message}&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{user.name}&lt;/h1&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Convention:</strong> Custom hook names must start with "use".</p>
+                    </div>
+
+                    <!-- Context API -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Context API</h3>
+                        <p class="text-gray-600 mb-3">Share data across the component tree without prop drilling.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { createContext, useContext, useState } from 'react';
+
+// Create a context
+const UserContext = createContext();
+
+function App() {
+  const [user, setUser] = useState({ name: 'John', age: 30 });
+
+  return (
+    // Provide the context value
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      &lt;Navbar /&gt;
+      &lt;MainContent /&gt;
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+function Navbar() {
+  // Consume the context
+  const { user } = useContext(UserContext);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Welcome, {user.name}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function MainContent() {
+  // Consume and update the context
+  const { user, setUser } = useContext(UserContext);
+  
+  const updateName = () => {
+    setUser({ ...user, name: 'Jane' });
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Age: {user.age}&lt;/p&gt;
+      &lt;button onClick={updateName}&gt;Change Name&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Best Practice:</strong> Split contexts for different concerns (theme, auth, etc.).</p>
+                    </div>
+
+                    <!-- Render Props -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Render Props</h3>
+                        <p class="text-gray-600 mb-3">Share code between components using a prop that's a function.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Component with render prop
+class MouseTracker extends React.Component {
+  state = { x: 0, y: 0 };
+
+  handleMouseMove = (event) => {
+    this.setState({
+      x: event.clientX,
+      y: event.clientY
+    });
+  };
+
+  render() {
+    return (
+      &lt;div onMouseMove={this.handleMouseMove}&gt;
+        {this.props.render(this.state)}
+      &lt;/div&gt;
+    );
+  }
+}
+
+// Using the component
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Move the mouse around!&lt;/h1&gt;
+      &lt;MouseTracker render={({ x, y }) => (
+        &lt;p&gt;
+          The current mouse position is ({x}, {y})
+        &lt;/p&gt;
+      )} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Children as function (alternative pattern)
+function MouseTracker({ children }) {
+  // ... same state and handler
+  
+  return (
+    &lt;div onMouseMove={this.handleMouseMove}&gt;
+      {children(this.state)}
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Alternative:</strong> Often replaced by custom hooks in modern React.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Section -->
+            <div class="performance section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-yellow-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Performance</h2>
+                </div>
+                <div class="p-4">
+                    <!-- React.memo -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">React.memo</h3>
+                        <p class="text-gray-600 mb-3">Prevent unnecessary re-renders of functional components.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { memo } from 'react';
+
+const MyComponent = memo(function MyComponent(props) {
+  /* render using props */
+});
+
+// With custom comparison function
+const MyComponent = memo(
+  function MyComponent(props) {
+    /* render using props */
+  },
+  (prevProps, nextProps) => {
+    /*
+    Return true if passing nextProps would return
+    the same result as passing prevProps,
+    otherwise return false
+    */
+    return prevProps.value === nextProps.value;
+  }
+);
+
+// Example usage
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(c => c + 1)}&gt;
+        Increment: {count}
+      &lt;/button&gt;
+      &lt;MemoizedChild value="static" /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const MemoizedChild = memo(function Child({ value }) {
+  console.log('Child rendered');
+  return &lt;div&gt;{value}&lt;/div&gt;;
+});</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Note:</strong> Only use when necessary - premature optimization can hurt performance.</p>
+                    </div>
+
+                    <!-- useMemo -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">useMemo</h3>
+                        <p class="text-gray-600 mb-3">Memoize expensive calculations to avoid re-computation.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useMemo } from 'react';
+
+function ExpensiveComponent({ list, filter }) {
+  const filteredList = useMemo(() => {
+    return list.filter(item => item.includes(filter));
+  }, [list, filter]); // Only recompute when list or filter changes
+
+  return (
+    &lt;ul&gt;
+      {filteredList.map(item => (
+        &lt;li key={item}&gt;{item}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Another example with complex calculation
+function Component({ a, b }) {
+  const result = useMemo(() => {
+    return complexCalculation(a, b);
+  }, [a, b]);
+
+  return &lt;div&gt;{result}&lt;/div&gt;;
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>When to use:</strong> When the computation is significantly slower than the re-render itself.</p>
+                    </div>
+
+                    <!-- useCallback -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">useCallback</h3>
+                        <p class="text-gray-600 mb-3">Memoize functions to prevent unnecessary re-creations.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>import { useCallback } from 'react';
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+  
+  // Without useCallback - recreated on every render
+  const handleClick = () => {
+    console.log('Clicked');
+  };
+  
+  // With useCallback - same function unless dependencies change
+  const memoizedHandleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []); // No dependencies - never changes
+  
+  // With dependency
+  const increment = useCallback(() => {
+    setCount(c => c + 1);
+  }, []); // setCount is stable so no dependencies needed
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={increment}&gt;Increment: {count}&lt;/button&gt;
+      &lt;ChildComponent onClick={memoizedHandleClick} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const ChildComponent = memo(function Child({ onClick }) {
+  console.log('Child rendered');
+  return &lt;button onClick={onClick}&gt;Click me&lt;/button&gt;;
+});</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Use Case:</strong> Mostly useful when passing callbacks to optimized child components.</p>
+                    </div>
+
+                    <!-- Code Splitting -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Code Splitting</h3>
+                        <p class="text-gray-600 mb-3">Reduce bundle size by loading code only when needed.</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Using React.lazy and Suspense
+import { lazy, Suspense } from 'react';
+
+const OtherComponent = lazy(() => import('./OtherComponent'));
+const AnotherComponent = lazy(() => import('./AnotherComponent'));
+
+function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;section&gt;
+          &lt;OtherComponent /&gt;
+          &lt;AnotherComponent /&gt;
+        &lt;/section&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+// With React Router
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
+
+function App() {
+  return (
+    &lt;Router&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;Switch&gt;
+          &lt;Route exact path="/" component={Home}/&gt;
+          &lt;Route path="/about" component={About}/&gt;
+        &lt;/Switch&gt;
+      &lt;/Suspense&gt;
+    &lt;/Router&gt;
+  );
+}</pre>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm"><strong>Best Practice:</strong> Split routes and large components that aren't immediately needed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <p>React.js Comprehensive Cheatsheet - Updated for React 18</p>
+            <p class="mt-2">Includes core concepts, hooks, advanced patterns, and performance optimization</p>
+        </footer>
+    </div>
+
+    <script>
+        // Filter content based on category
+        function filterContent(category) {
+            const sections = document.querySelectorAll('.section');
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('header button');
+            buttons.forEach(button => {
+                if (button.textContent.toLowerCase().includes(category) || 
+                    (category === 'all' && button.textContent === 'All')) {
+                    button.classList.remove('bg-gray-200');
+                    button.classList.add('bg-blue-600', 'text-white');
+                } else {
+                    button.classList.remove('bg-blue-600', 'text-white');
+                    button.classList.add('bg-gray-200');
+                }
+            });
+            
+            // Show/hide sections
+            sections.forEach(section => {
+                if (category === 'all' || section.classList.contains(category)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Copy code blocks to clipboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block pre');
+            
+            codeBlocks.forEach(block => {
+                block.addEventListener('click', function() {
+                    const range = document.createRange();
+                    range.selectNode(block);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        const msg = successful ? 'Copied!' : 'Unable to copy';
+                        const originalText = block.textContent;
+                        
+                        // Show feedback
+                        block.textContent = msg;
+                        setTimeout(() => {
+                            block.textContent = originalText;
+                        }, 1000);
+                    } catch (err) {
+                        console.log('Oops, unable to copy');
+                    }
+                    
+                    window.getSelection().removeAllRanges();
+                });
+                
+                // Add cursor pointer to indicate clickable
+                block.style.cursor = 'pointer';
+            });
+        });
+    </script>
+</body>
+</html>
