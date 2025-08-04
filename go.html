@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang Cheatsheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        golang: '#00ADD8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .code-block {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-golang mb-2">Golang Cheatsheet</h1>
+            <p class="text-lg text-gray-600">Quick reference for Go programming language</p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <button onclick="filterContent('all')" class="px-4 py-2 bg-golang text-white rounded hover:bg-blue-600 transition">All</button>
+                <button onclick="filterContent('basics')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Basics</button>
+                <button onclick="filterContent('advanced')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Advanced</button>
+                <button onclick="filterContent('concurrency')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">Concurrency</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Basics Section -->
+            <div class="basics section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-golang text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Basics</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Hello World -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Hello World</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Variables -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Variables</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Declaration
+var name string = "Go"
+
+// Type inference
+var age = 30
+height := 175.5
+
+// Multiple variables
+var (
+    a int
+    b string = "hello"
+    c bool
+)
+
+// Short declaration (inside functions)
+count := 10
+msg := "Hello"</pre>
+                        </div>
+                    </div>
+
+                    <!-- Constants -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Constants</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>const Pi = 3.14
+const (
+    StatusOK = 200
+    StatusNotFound = 404
+)
+
+// Iota for enumerated constants
+const (
+    Zero = iota  // 0
+    One          // 1
+    Two          // 2
+)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Basic Types -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Basic Types</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>bool
+
+string
+
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+
+byte // alias for uint8
+rune // alias for int32 (Unicode code point)
+
+float32 float64
+
+complex64 complex128</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Structures Section -->
+            <div class="basics section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-golang text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Control Structures</h2>
+                </div>
+                <div class="p-4">
+                    <!-- If/Else -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">If/Else</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>if x > 10 {
+    fmt.Println("x is greater than 10")
+} else if x > 5 {
+    fmt.Println("x is greater than 5")
+} else {
+    fmt.Println("x is 5 or less")
+}
+
+// With a short statement
+if err := doSomething(); err != nil {
+    fmt.Println("Error:", err)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- For Loop -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">For Loop</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Traditional for loop
+for i := 0; i < 10; i++ {
+    fmt.Println(i)
+}
+
+// While loop (Go only has for)
+n := 0
+for n < 5 {
+    fmt.Println(n)
+    n++
+}
+
+// Infinite loop
+for {
+    // Break with condition
+    if condition {
+        break
+    }
+}
+
+// Range loop (arrays, slices, maps, strings)
+nums := []int{2, 3, 4}
+for i, num := range nums {
+    fmt.Println(i, num)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Switch -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Switch</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Basic switch
+switch os := runtime.GOOS; os {
+case "darwin":
+    fmt.Println("OS X")
+case "linux":
+    fmt.Println("Linux")
+default:
+    fmt.Printf("%s\n", os)
+}
+
+// Switch with no condition (like if/else)
+t := time.Now()
+switch {
+case t.Hour() < 12:
+    fmt.Println("Good morning!")
+case t.Hour() < 17:
+    fmt.Println("Good afternoon!")
+default:
+    fmt.Println("Good evening!")
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Defer -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Defer</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Defer executes when surrounding function returns
+func readFile() {
+    file, err := os.Open("file.txt")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer file.Close() // Will be executed last
+    
+    // Process file
+}
+
+// Deferred calls are executed in LIFO order
+func stackingDefers() {
+    fmt.Println("counting")
+    for i := 0; i < 3; i++ {
+        defer fmt.Println(i)
+    }
+    fmt.Println("done")
+}
+// Output: counting, done, 2, 1, 0</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functions Section -->
+            <div class="basics section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-golang text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Functions</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Basic Function -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Basic Function</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Function declaration
+func add(a int, b int) int {
+    return a + b
+}
+
+// When parameters share type
+func multiply(a, b int) int {
+    return a * b
+}
+
+// Multiple return values
+func swap(x, y string) (string, string) {
+    return y, x
+}
+
+// Named return values
+func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return // naked return
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Variadic Functions -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Variadic Functions</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Can be called with any number of args
+func sum(nums ...int) int {
+    total := 0
+    for _, num := range nums {
+        total += num
+    }
+    return total
+}
+
+func main() {
+    fmt.Println(sum(1, 2, 3)) // 6
+    fmt.Println(sum(1, 2, 3, 4)) // 10
+    
+    // Spread slice elements as args
+    nums := []int{1, 2, 3, 4}
+    fmt.Println(sum(nums...)) // 10
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Function Values -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Function Values</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Functions are first-class values
+func compute(fn func(float64, float64) float64) float64 {
+    return fn(3, 4)
+}
+
+func main() {
+    hypot := func(x, y float64) float64 {
+        return math.Sqrt(x*x + y*y)
+    }
+    
+    fmt.Println(hypot(5, 12)) // 13
+    fmt.Println(compute(hypot)) // 5 (hypot(3,4))
+    fmt.Println(compute(math.Pow)) // 81 (3^4)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Closures -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Closures</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Functions can form closures
+func adder() func(int) int {
+    sum := 0
+    return func(x int) int {
+        sum += x
+        return sum
+    }
+}
+
+func main() {
+    pos, neg := adder(), adder()
+    for i := 0; i < 10; i++ {
+        fmt.Println(
+            pos(i),
+            neg(-2*i),
+        )
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Section -->
+            <div class="advanced section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Advanced Features</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Pointers -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Pointers</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Pointer holds memory address of a value
+var p *int
+
+i := 42
+p = &i // & generates a pointer
+
+fmt.Println(*p) // * dereferences pointer
+*p = 21         // set i through pointer
+
+// No pointer arithmetic in Go
+
+// Pointer receiver in methods
+func (v *Vertex) Scale(f float64) {
+    v.X = v.X * f
+    v.Y = v.Y * f
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Structs -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Structs</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Define a struct
+type Vertex struct {
+    X int
+    Y int
+}
+
+// Create struct instance
+v := Vertex{1, 2}
+
+// Access fields
+v.X = 4
+
+// Pointer to struct
+p := &v
+p.X = 1e9 // no need to dereference (*p).X
+
+// Struct literals
+var (
+    v1 = Vertex{1, 2}  // has type Vertex
+    v2 = Vertex{X: 1}  // Y:0 is implicit
+    v3 = Vertex{}      // X:0 and Y:0
+)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Methods -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Methods</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Method with value receiver
+func (v Vertex) Abs() float64 {
+    return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+// Method with pointer receiver
+func (v *Vertex) Scale(f float64) {
+    v.X = v.X * f
+    v.Y = v.Y * f
+}
+
+func main() {
+    v := Vertex{3, 4}
+    v.Scale(10)
+    fmt.Println(v.Abs()) // 50
+}
+
+// Methods can be defined on any type
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+    if f < 0 {
+        return float64(-f)
+    }
+    return float64(f)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Interfaces -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Interfaces</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Interface is a set of method signatures
+type Abser interface {
+    Abs() float64
+}
+
+// Implicit implementation
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+    if f < 0 {
+        return float64(-f)
+    }
+    return float64(f)
+}
+
+func main() {
+    var a Abser
+    f := MyFloat(-math.Sqrt2)
+    a = f // MyFloat implements Abser
+    fmt.Println(a.Abs())
+}
+
+// Empty interface can hold any value
+func describe(i interface{}) {
+    fmt.Printf("(%v, %T)\n", i, i)
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concurrency Section -->
+            <div class="concurrency section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-purple-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Concurrency</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Goroutines -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Goroutines</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// A goroutine is a lightweight thread
+func say(s string) {
+    for i := 0; i < 5; i++ {
+        time.Sleep(100 * time.Millisecond)
+        fmt.Println(s)
+    }
+}
+
+func main() {
+    go say("world") // runs concurrently
+    say("hello")
+}
+
+// Goroutines run in same address space
+// so access to shared memory must be synchronized</pre>
+                        </div>
+                    </div>
+
+                    <!-- Channels -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Channels</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Channels are typed conduits
+ch := make(chan int)
+
+// Send to channel
+ch <- v
+
+// Receive from channel
+v := <-ch
+
+// Channels block until both sides ready
+func sum(s []int, c chan int) {
+    sum := 0
+    for _, v := range s {
+        sum += v
+    }
+    c <- sum // send sum to c
+}
+
+func main() {
+    s := []int{7, 2, 8, -9, 4, 0}
+    c := make(chan int)
+    go sum(s[:len(s)/2], c)
+    go sum(s[len(s)/2:], c)
+    x, y := <-c, <-c // receive from c
+    fmt.Println(x, y, x+y)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Buffered Channels -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Buffered Channels</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Channels can be buffered
+ch := make(chan int, 2)
+
+// Sends block only when buffer is full
+ch <- 1
+ch <- 2
+
+// Receives block when buffer is empty
+fmt.Println(<-ch)
+fmt.Println(<-ch)
+
+// Closing channels
+close(ch)
+
+// Testing if channel is closed
+v, ok := <-ch // ok is false if closed
+
+// Range over channel
+for i := range ch {
+    fmt.Println(i)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Select -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Select</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Select lets goroutine wait on multiple comms
+func fibonacci(c, quit chan int) {
+    x, y := 0, 1
+    for {
+        select {
+        case c <- x:
+            x, y = y, x+y
+        case <-quit:
+            fmt.Println("quit")
+            return
+        }
+    }
+}
+
+func main() {
+    c := make(chan int)
+    quit := make(chan int)
+    go func() {
+        for i := 0; i < 10; i++ {
+            fmt.Println(<-c)
+        }
+        quit <- 0
+    }()
+    fibonacci(c, quit)
+}
+
+// Default case in select
+select {
+case msg := <-messages:
+    fmt.Println("received message", msg)
+default:
+    fmt.Println("no message received")
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collections Section -->
+            <div class="basics section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-golang text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Collections</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Arrays -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Arrays</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Fixed size
+var a [5]int
+a[4] = 100
+
+// Initialize
+b := [5]int{1, 2, 3, 4, 5}
+
+// 2D array
+var twoD [2][3]int
+for i := 0; i < 2; i++ {
+    for j := 0; j < 3; j++ {
+        twoD[i][j] = i + j
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Slices -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Slices</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Dynamic arrays
+s := make([]string, 3)
+s[0] = "a"
+s[1] = "b"
+s = append(s, "d", "e")
+
+// Slice literal
+letters := []string{"a", "b", "c"}
+
+// Slice operations
+s := []int{2, 3, 5, 7, 11, 13}
+s = s[1:4] // [3, 5, 7]
+s = s[:2]  // [3, 5]
+s = s[1:]  // [5]
+
+// Length and capacity
+len(s) // 2
+cap(s) // 5 (original array capacity)
+
+// Make slices with capacity
+a := make([]int, 5)      // len=5 cap=5
+b := make([]int, 0, 5)   // len=0 cap=5
+
+// Copy slices
+copy(b, a)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Maps -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Maps</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Create map
+m := make(map[string]int)
+
+// Set key/value
+m["k1"] = 7
+m["k2"] = 13
+
+// Get value
+v1 := m["k1"]
+
+// Delete
+delete(m, "k2")
+
+// Check if key exists
+_, prs := m["k2"]
+
+// Map literal
+n := map[string]int{
+    "foo": 1,
+    "bar": 2,
+}
+
+// Iterate map
+for k, v := range n {
+    fmt.Println(k, v)
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Range -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Range</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Range over slice/array
+nums := []int{2, 3, 4}
+for i, num := range nums {
+    fmt.Println(i, num)
+}
+
+// Range over map
+kvs := map[string]string{"a": "apple", "b": "banana"}
+for k, v := range kvs {
+    fmt.Println(k, v)
+}
+
+// Range over string (Unicode code points)
+for i, c := range "go" {
+    fmt.Println(i, c)
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Handling Section -->
+            <div class="advanced section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Error Handling</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Errors -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Errors</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Errors are values
+func divide(x, y float64) (float64, error) {
+    if y == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return x / y, nil
+}
+
+func main() {
+    result, err := divide(10, 0)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    fmt.Println("Result:", result)
+}
+
+// Custom error types
+type MyError struct {
+    When time.Time
+    What string
+}
+
+func (e *MyError) Error() string {
+    return fmt.Sprintf("at %v, %s",
+        e.When, e.What)
+}
+
+func run() error {
+    return &MyError{
+        time.Now(),
+        "it didn't work",
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Panic -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Panic</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Panic stops normal execution
+func mayPanic() {
+    panic("a problem")
+}
+
+func main() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Recovered:", r)
+        }
+    }()
+    
+    mayPanic()
+    fmt.Println("After mayPanic()") // won't run
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Recover -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Recover</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Recover regains control after panic
+func recoverExample() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Recovered in f", r)
+        }
+    }()
+    
+    fmt.Println("Calling g.")
+    g(0)
+    fmt.Println("Returned normally from g.")
+}
+
+func g(i int) {
+    if i > 3 {
+        fmt.Println("Panicking!")
+        panic(fmt.Sprintf("%v", i))
+    }
+    defer fmt.Println("Defer in g", i)
+    fmt.Println("Printing in g", i)
+    g(i + 1)
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Library Section -->
+            <div class="advanced section bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-600 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">Standard Library</h2>
+                </div>
+                <div class="p-4">
+                    <!-- Strings -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Strings</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Contains
+strings.Contains("test", "es") // true
+
+// Count
+strings.Count("test", "t") // 2
+
+// HasPrefix
+strings.HasPrefix("test", "te") // true
+
+// HasSuffix
+strings.HasSuffix("test", "st") // true
+
+// Index
+strings.Index("test", "e") // 1
+
+// Join
+strings.Join([]string{"a","b"}, "-") // "a-b"
+
+// Repeat
+strings.Repeat("a", 5) // "aaaaa"
+
+// Replace
+strings.Replace("foo", "o", "0", -1) // "f00"
+
+// Split
+strings.Split("a-b-c-d-e", "-") // ["a","b","c","d","e"]
+
+// ToLower
+strings.ToLower("TEST") // "test"
+
+// ToUpper
+strings.ToUpper("test") // "TEST"</pre>
+                        </div>
+                    </div>
+
+                    <!-- Files -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Files</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Reading
+dat, err := os.ReadFile("/tmp/dat")
+check(err)
+fmt.Print(string(dat))
+
+// Writing
+d1 := []byte("hello\ngo\n")
+err := os.WriteFile("/tmp/dat1", d1, 0644)
+check(err)
+
+// Open file for more control
+f, err := os.Create("/tmp/dat2")
+check(err)
+defer f.Close()
+
+d2 := []byte{115, 111, 109, 101, 10}
+n2, err := f.Write(d2)
+check(err)
+
+n3, err := f.WriteString("writes\n")
+check(err)
+
+f.Sync() // flush to disk</pre>
+                        </div>
+                    </div>
+
+                    <!-- JSON -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">JSON</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Marshaling
+type Person struct {
+    Name string `json:"name"`
+    Age  int    `json:"age"`
+}
+
+p := Person{"John", 30}
+jsonData, err := json.Marshal(p)
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(string(jsonData)) // {"name":"John","age":30}
+
+// Unmarshaling
+var p2 Person
+err = json.Unmarshal(jsonData, &p2)
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(p2) // {John 30}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">Time</h3>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded code-block text-sm overflow-x-auto scrollbar-hide">
+                            <pre>// Current time
+now := time.Now()
+fmt.Println(now)
+
+// Create time
+then := time.Date(
+    2009, 11, 17, 20, 34, 58, 651387237, time.UTC)
+fmt.Println(then)
+
+// Extract components
+fmt.Println(then.Year())
+fmt.Println(then.Month())
+fmt.Println(then.Day())
+fmt.Println(then.Hour())
+fmt.Println(then.Minute())
+fmt.Println(then.Second())
+fmt.Println(then.Nanosecond())
+fmt.Println(then.Location())
+
+// Duration
+diff := now.Sub(then)
+fmt.Println(diff)
+fmt.Println(diff.Hours())
+fmt.Println(diff.Minutes())
+fmt.Println(diff.Seconds())
+
+// Formatting
+fmt.Println(then.Format("2006-01-02 15:04:05"))
+fmt.Println(then.Format("Mon Jan _2 15:04:05 2006"))
+fmt.Println(then.Format("2006-01-02T15:04:05.999999-07:00"))</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <p>Golang Cheatsheet - Comprehensive reference for Go programming language</p>
+            <p class="mt-2">Last updated: August 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        // Filter content based on category
+        function filterContent(category) {
+            const sections = document.querySelectorAll('.section');
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('header button');
+            buttons.forEach(button => {
+                if (button.textContent.toLowerCase().includes(category) {
+                    button.classList.remove('bg-gray-200');
+                    button.classList.add('bg-golang', 'text-white');
+                } else {
+                    button.classList.remove('bg-golang', 'text-white');
+                    button.classList.add('bg-gray-200');
+                }
+            });
+            
+            // Show/hide sections
+            sections.forEach(section => {
+                if (category === 'all' || section.classList.contains(category)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Copy code blocks to clipboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block pre');
+            
+            codeBlocks.forEach(block => {
+                block.addEventListener('click', function() {
+                    const range = document.createRange();
+                    range.selectNode(block);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        const msg = successful ? 'Copied!' : 'Unable to copy';
+                        const originalText = block.textContent;
+                        
+                        // Show feedback
+                        block.textContent = msg;
+                        setTimeout(() => {
+                            block.textContent = originalText;
+                        }, 1000);
+                    } catch (err) {
+                        console.log('Oops, unable to copy');
+                    }
+                    
+                    window.getSelection().removeAllRanges();
+                });
+                
+                // Add cursor pointer to indicate clickable
+                block.style.cursor = 'pointer';
+            });
+        });
+    </script>
+</body>
+</html>
